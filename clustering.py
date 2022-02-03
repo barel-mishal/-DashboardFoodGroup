@@ -110,3 +110,13 @@ def create_table_food_group(df, labels_dict):
     unique_groups = sorted(marged_columns.unique(), key=lambda x: x[1])
     values = get_matrix_food_group(unique_groups, labels_dict)
     return pd.DataFrame.from_dict(values).T
+
+df_kmeans = create_labeled_dataframe("kmeans")
+df_minibatch_kmeans = create_labeled_dataframe("minibatch_kmeans")
+df_hierarchical = create_labeled_dataframe("hierarchical")
+df_dbscan = create_labeled_dataframe("dbscan")
+
+df_dbscan.to_csv('df_dbscan.csv')
+df_minibatch_kmeans.to_csv('df_minibatch_kmeans.csv')
+df_hierarchical.to_csv('df_hierarchical.csv')
+df_kmeans.to_csv('df_kmeans.csv')
