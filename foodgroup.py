@@ -65,16 +65,16 @@ LABELS_DIC = {
 __DIRNAME__ = os.path.dirname(os.path.realpath(__file__))
 
 df_kmeans = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'csv_kmeans.csv'))
-df_minibatch_kmeans = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'csv_minibatch_kmeans.csv'))
-df_hierarchical = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'csv_hierarchical.csv'))
-df_dbscan = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'csv_dbscan.csv'))
-df_spectral = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'csv_spectral.csv'))
+# df_minibatch_kmeans = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'csv_minibatch_kmeans.csv'))
+# df_hierarchical = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'csv_hierarchical.csv'))
+# df_dbscan = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'csv_dbscan.csv'))
+# df_spectral = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'csv_spectral.csv'))
 
 df_kmeans_group = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'food_group_csv_kmeans.csv'))
-df_minibatch_kmeans_group = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'food_group_csv_minibatch_kmeans.csv'))
-df_hierarchical_group = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'food_group_csv_hierarchical.csv'))
-df_dbscan_group = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'food_group_csv_dbscan.csv'))
-df_spectral_group = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'food_group_csv_spectral.csv'))
+# df_minibatch_kmeans_group = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'food_group_csv_minibatch_kmeans.csv'))
+# df_hierarchical_group = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'food_group_csv_hierarchical.csv'))
+# df_dbscan_group = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'food_group_csv_dbscan.csv'))
+# df_spectral_group = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'food_group_csv_spectral.csv'))
 
 FOOD_GROUP_OPTIONS = [{'label': x, 'value': x} for x in range(32)]
 ALGORITHMS = ["kmeans", "minibatch_kmeans", "hierarchical", "dbscan", "spectral"]
@@ -151,24 +151,24 @@ app.layout = dbc.Container([
 )
 def plot_data(cluster_value, food_group_value):
     # Choose proper dataframe
-    if cluster_value == "hierarchical":
-        df = df_hierarchical
-        df_group = df_hierarchical_group
-    elif cluster_value == "kmeans":
+    if cluster_value == "kmeans":
         df = df_kmeans
         df_group = df_kmeans_group
-    elif cluster_value == "minibatch_kmeans":
-        df = df_minibatch_kmeans
-        df_group = df_minibatch_kmeans_group
     elif cluster_value == "hierarchical":
-        df = df_hierarchical
-        df_group = df_hierarchical_group
-    elif cluster_value == "spectral":
-        df = df_spectral
-        df_group = df_spectral_group
-    else:
-        df = df_dbscan
-        df_group = df_dbscan_group
+        df = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'csv_hierarchical.csv'))
+        df_group = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'food_group_csv_hierarchical.csv'))
+    # elif cluster_value == "minibatch_kmeans":
+    #     df = df_minibatch_kmeans
+    #     df_group = df_minibatch_kmeans_group
+    # elif cluster_value == "hierarchical":
+    #     df = df_hierarchical
+    #     df_group = df_hierarchical_group
+    # elif cluster_value == "spectral":
+    #     df = df_spectral
+    #     df_group = df_spectral_group
+    # else:
+    #     df = df_dbscan
+    #     df_group = df_dbscan_group
     df = df.astype({"label": 'category'})
     df_group = df_group.reset_index()
 
@@ -178,10 +178,19 @@ def plot_data(cluster_value, food_group_value):
     df_group_filtered = df_group[["index", *[str(i) for i in food_group_value]]]
 
     # build scatter plot
-    scatter_3d = px.scatter_3d(df_filtered, x='proteins', y='fats', z='carbohydrates', size='food_energy',
-                               color='food group', hover_data=['name', 'food group'],
-                               color_discrete_sequence=px.colors.qualitative.Dark2+px.colors.qualitative.Light24,
-                               category_orders={'food group': [i for i in range(32)]})
+    scatter_3d = px.scatter_3d(
+        df_filtered,
+        x='proteins',
+        y='fats',
+        z='carbohydrates',
+        size='food_energy',
+        color='food group',
+        hover_data=['name', 'food group'],
+        color_discrete_sequence=px.colors.qualitative.Dark2
+        + px.colors.qualitative.Light24,
+        category_orders={'food group': list(range(32))},
+    )
+
 
     # build DataTable
     mytable = dash_table.DataTable(
