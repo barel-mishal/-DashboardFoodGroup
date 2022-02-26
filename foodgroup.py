@@ -80,6 +80,7 @@ FOOD_GROUP_OPTIONS = [{'label': x, 'value': x} for x in range(32)]
 ALGORITHMS = ["kmeans", "minibatch_kmeans", "hierarchical", "dbscan", "spectral"]
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+server = app.server
 app.layout = dbc.Container([
     html.H1("Interactive Visualization Of Food Groups Clustering",
             className='mb-2', style={'textAlign': 'center'}),
