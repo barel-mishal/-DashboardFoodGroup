@@ -60,21 +60,11 @@ LABELS_DIC = {
     41811939:	'תחליפי בשר (לייט)'
 }
 
-
-
 __DIRNAME__ = os.path.dirname(os.path.realpath(__file__))
 
 df_kmeans = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'csv_kmeans.csv'))
-# df_minibatch_kmeans = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'csv_minibatch_kmeans.csv'))
-# df_hierarchical = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'csv_hierarchical.csv'))
-# df_dbscan = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'csv_dbscan.csv'))
-# df_spectral = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'csv_spectral.csv'))
 
 df_kmeans_group = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'food_group_csv_kmeans.csv'))
-# df_minibatch_kmeans_group = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'food_group_csv_minibatch_kmeans.csv'))
-# df_hierarchical_group = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'food_group_csv_hierarchical.csv'))
-# df_dbscan_group = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'food_group_csv_dbscan.csv'))
-# df_spectral_group = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'food_group_csv_spectral.csv'))
 
 FOOD_GROUP_OPTIONS = [{'label': x, 'value': x} for x in range(32)]
 ALGORITHMS = ["kmeans", "minibatch_kmeans", "hierarchical", "dbscan", "spectral"]
@@ -158,18 +148,15 @@ def plot_data(cluster_value, food_group_value):
     elif cluster_value == "hierarchical":
         df = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'csv_hierarchical.csv'))
         df_group = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'food_group_csv_hierarchical.csv'))
-    # elif cluster_value == "minibatch_kmeans":
-    #     df = df_minibatch_kmeans
-    #     df_group = df_minibatch_kmeans_group
-    # elif cluster_value == "hierarchical":
-    #     df = df_hierarchical
-    #     df_group = df_hierarchical_group
-    # elif cluster_value == "spectral":
-    #     df = df_spectral
-    #     df_group = df_spectral_group
-    # else:
-    #     df = df_dbscan
-    #     df_group = df_dbscan_group
+    elif cluster_value == "minibatch_kmeans":
+        df = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'csv_minibatch_kmeans.csv'))
+        df_group = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'food_group_csv_minibatch_kmeans.csv'))
+    elif cluster_value == "spectral":
+        df = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'csv_spectral.csv'))
+        df_group = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'food_group_csv_spectral.csv'))
+    else:
+        df = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'csv_dbscan.csv'))
+        df_group = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'food_group_csv_dbscan.csv'))
     df = df.astype({"label": 'category'})
     df_group = df_group.reset_index()
 
