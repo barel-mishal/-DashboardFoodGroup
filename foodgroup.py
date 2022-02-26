@@ -54,7 +54,6 @@ def get_matrix_food_group(unique_groups, labels_dict):
                 values[group].append("")
     return values
 
-
 def create_table_food_group(df, labels_dict):
     data_frame = df[['labels_names', 'label']]
     marged_columns = data_frame.apply(tuple, axis=1)
@@ -176,8 +175,6 @@ def plot_data(cluster_value, food_group_value):
         columns=[{"name": i, "id": i} for i in [str(col) for col in df_group_filtered.columns]],
         data=df_group_filtered.to_dict('records'),
     )
-
-
 
     return scatter_3d, mytable, group_table
 
