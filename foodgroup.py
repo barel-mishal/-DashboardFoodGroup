@@ -65,7 +65,7 @@ __DIRNAME__ = os.path.dirname(os.path.realpath(__file__))
 df_kmeans = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'csv_kmeans.csv'))
 
 df_kmeans_group = pd.read_csv(os.path.join(__DIRNAME__, 'csvs', 'csvs_algo', 'food_group_csv_kmeans.csv'))
-
+print(df_kmeans_group)
 FOOD_GROUP_OPTIONS = [{'label': x, 'value': x} for x in range(32)]
 ALGORITHMS = ["kmeans", "minibatch_kmeans", "hierarchical", "dbscan", "spectral"]
 
@@ -162,9 +162,10 @@ def plot_data(cluster_value, food_group_value):
 
     # filter data based on user selection
     df_filtered = df[df.label.isin(food_group_value)].rename(columns={'protein': 'proteins', 'total_fat': 'fats',
-                                                                      'label': 'food group'})
-    df_group_filtered = df_group[["index", *[str(i) for i in food_group_value]]]
-
+                                                                   'label': 'food group'})
+                                    
+    df_group_filtered = df_group[["Food Group Names", *[str(i) for i in food_group_value]]].rename(columns={"Unnamed: 0": 'Food Group Names {cluster_value}'})
+    print(df_group)
     # build scatter plot
     scatter_3d = px.scatter_3d(
         df_filtered,
@@ -188,7 +189,7 @@ def plot_data(cluster_value, food_group_value):
         data=df_filtered.to_dict('records'),
         page_size=20,
     )
-
+    print(df_group_filtered)
     group_table = dash_table.DataTable(
         id='table2',
         columns=[{"name": i, "id": i} for i in [str(col) for col in df_group_filtered.columns]],
